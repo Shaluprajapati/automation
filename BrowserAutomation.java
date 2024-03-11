@@ -1,5 +1,4 @@
 package Resolution;
-
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -9,11 +8,8 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.apache.commons.io.FileUtils;
 import java.io.File;
-import java.io.FileWriter;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 
-public class brower{
+public class BrowserAutomation {
 
     public static void main(String[] args) {
         // Provide the path to the WebDriver executables
@@ -29,14 +25,7 @@ public class brower{
 
         // Mobile resolutions
         Dimension[] mobileResolutions = {new Dimension(360, 640), new Dimension(414, 896), new Dimension(375, 667)};
-        
         String screenshotDir = "./src/Resolution/screenshot";
-        
-        File directory = new File(screenshotDir);
-        if (!directory.exists()) {
-            directory.mkdir();
-        }
-        
         // Loop through different browsers
         String[] browsers = {"chrome", "firefox", "safari"};
         for (String browser : browsers) {
@@ -91,35 +80,8 @@ public class brower{
     private static void captureScreenshot(WebDriver driver, String browser, String url, Dimension resolution,String screenshotDir) throws Exception {
         // Take a screenshot
         File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        String folderName = browser + File.separator + resolution.getWidth() + "x" + resolution.getHeight();
-        File folder = new File(screenshotDir + File.separator + folderName);
-        if (!folder.exists()) {
-            folder.mkdirs();
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmmss");
-        String timestamp = sdf.format(new Date(0, 0, 0));
-        String fileName = screenshotDir + File.separator + folderName + File.separator + "Screenshot-" + timestamp + ".png";
-        FileUtils.copyFile(screenshot, new File(fileName));
-    }
-
-    private static void recordVideo() {
-        // Use Monte Media Library (FML) or other libraries to record video
-        // Implementation depends on the library being used
-    }
-
-    private static void validateTestCase() {
-        // Your validation logic goes here
-    }
-
-    private static void writeValidationLog() {
-        // Write validation log to a file
-        // For demonstration, let's just print a message
-        try {
-            FileWriter writer = new FileWriter("validation.log", true);
-            writer.write("Test case validation successful!\n");
-            writer.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        
+        String fileName = browser + "_" + url.replaceAll("[^a-zA-Z0-9]", "_") + "_" + resolution.getWidth() + "x" + resolution.getHeight() + ".png";
+        FileUtils.copyFile(screenshot, new File(screenshotDir + File.separator + fileName));
     }
 }
