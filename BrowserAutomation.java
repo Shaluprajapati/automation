@@ -13,14 +13,12 @@ import java.io.FileWriter;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
-public class BrowserAutomation{
+public class brower{
 
     public static void main(String[] args) {
         // Provide the path to the WebDriver executables
         System.setProperty("webdriver.chrome.driver", "./driver_2/chromedriver.exe");
         System.setProperty("webdriver.gecko.driver", "./driver_2/geckodriver.exe");
-        System.setProperty("webdriver.opera.driver", "./driver_2/operadriver.exe");
-        
         // Safari does not require setting a system property
 
         // Test URLs
@@ -40,7 +38,7 @@ public class BrowserAutomation{
         }
         
         // Loop through different browsers
-        String[] browsers = {"chrome", "firefox", "opera"};
+        String[] browsers = {"chrome", "firefox", "safari"};
         for (String browser : browsers) {
             WebDriver driver = null;
             try {
@@ -49,7 +47,7 @@ public class BrowserAutomation{
                     driver = new ChromeDriver();
                 } else if (browser.equals("firefox")) {
                     driver = new FirefoxDriver();
-                } else if (browser.equals("opera")) {
+                } else if (browser.equals("safari")) {
                     driver = new SafariDriver();
                 }
 
@@ -99,22 +97,14 @@ public class BrowserAutomation{
             folder.mkdirs();
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-HHmmss");
-        String timestamp = sdf.format(new Date(0, 0, 0));
+        String timestamp = sdf.format(new Date(0));
         String fileName = screenshotDir + File.separator + folderName + File.separator + "Screenshot-" + timestamp + ".png";
         FileUtils.copyFile(screenshot, new File(fileName));
     }
 
-    private static void recordVideo() {
-        // Use Monte Media Library (FML) or other libraries to record video
-        // Implementation depends on the library being used
-    }
-
-    private static void validateTestCase() {
-        // Your validation logic goes here
-    }
-
+    
     private static void writeValidationLog() {
-        // Write validation log to a file
+        
         // For demonstration, let's just print a message
         try {
             FileWriter writer = new FileWriter("validation.log", true);
